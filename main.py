@@ -29,6 +29,7 @@ def parse(filename) :
 
     talkobj = []
 
+    # 行ごとにループします。
     for (i, item) in enumerate(lines) :
         if item == '\n' :
             continue
@@ -61,5 +62,48 @@ def parse(filename) :
     return talkobj
 
 if __name__ == '__main__':
-    lines = parse('talk02.txt')
-    
+    dat = parse('talk02.txt')
+
+    anal = []
+    for (i, day) in enumerate(dat) :
+        orientation = {'POSITIVE': 0, 'mostly_POSITIVE': 0, 'NEUTRAL': 0, 'mostly_NEGATIVE': 0, 'NEGATIVE': 0}
+        activation = {'ACTIVE': 0, 'mostly_ACTIVE': 0, 'NEUTRAL': 0, 'mostly_PASSIVE': 0, 'PASSIVE': 0}
+        emotion = []
+        representive = []
+        for (j, talk) in enumerate(day['text']) :
+            emotion_analyzer = MLAsk()
+            o = emotion_analyzer.analyze(talk)
+
+            if 'orientation' in o :
+                orientation[o['orientation']] += 1
+            
+            if 'activation' in o :
+                activation[o['activation']] += 1
+
+            if 'emotion' in o :
+                if o['emotion'] != None :
+                    emotion.append(o['emotion'].values())
+
+            if 'representative' in o :
+                representive.append(o['representative'])
+
+        anal.append({
+            'date': day['date'],
+            'orientation': orientation,
+            'emotion': emotion,
+            'activation': activation,
+            'representive': representive
+            })
+
+    for (x, i) in enumerate(anal) :
+        print('====================')
+        print(i['date'])
+        print('orientation:')
+        print(i['orientation'])
+        print('emotion:')
+        print(i['emotion'])
+        print('activation:')
+        print(i['activation'])
+        print('representive:')
+        print(i['representive'])
+        print('====================\n')
