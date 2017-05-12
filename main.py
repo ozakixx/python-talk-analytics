@@ -9,7 +9,7 @@ from mlask import MLAsk
 USERNAME = ['尾崎', '雄太', '尾崎雄太']
 
 # 解析するトーク数です。
-TALKNUM = 2
+TALKNUM = 22
 
 ##############################################
 
@@ -44,13 +44,8 @@ def parse(filename) :
             date = datetime.date(date_t.year, date_t.month, date_t.day)
             text = []
 
-        # 前のトークから溢れた行だった場合
-        elif len(item_array) == 1 :
-            if mytalk :
-                text[len(text)-1] + item_array[0]
-
         # 普通に時間と名前とトーク内容だった場合
-        else :
+        elif len(item_array) == 3 :
             if item_array[1] in USERNAME :
                 mytalk = True
                 text.append(item_array[2])
@@ -100,10 +95,6 @@ if __name__ == '__main__':
         print(i['date'])
         print('orientation:')
         print(i['orientation'])
-        print('emotion:')
-        print(i['emotion'])
         print('activation:')
         print(i['activation'])
-        print('representive:')
-        print(i['representive'])
         print('====================\n')
