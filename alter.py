@@ -85,6 +85,8 @@ def main() :
 
         for (i, item) in enumerate(dat) :
             analyze(item)
+    
+    # CSV書き出し用
     output = ['date,PASSIVE,mostly_PASSIVE,NEUTRAL,mostly_ACTIVE,ACTIVE,NEGATIVE,mostly_NEGATIVE,NEUTRAL,mostly_POSITIVE,POSITIVE']        
     for d in res :
         date = d
